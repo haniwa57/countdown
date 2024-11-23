@@ -18,24 +18,31 @@
         }
 
         .timer {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: bold;
+            margin: 20px 0;
         }
 
         input[type="datetime-local"] {
             padding: 10px;
-            font-size: 1.5rem;
-            color: #000;
+            font-size: 1rem;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 5px;
         }
 
-        .hidden {
-            display: none;
+        input[type="datetime-local"]:focus {
+            outline: none;
+            border-color: #888;
         }
     </style>
 </head>
 <body>
-    <input type="datetime-local" id="datetime">
-    <div class="timer" id="timer">--:--:--</div>
+    <div class="controls">
+        <input type="datetime-local" id="datetime">
+    </div>
+    <div class="timer" id="timer">00 days 00 hours 00 minutes 00 seconds</div>
 
     <script>
         const timerElement = document.getElementById('timer');
@@ -48,7 +55,6 @@
             const currentTime = new Date();
 
             if (isNaN(targetTime.getTime()) || targetTime <= currentTime) {
-                alert('Please select a valid future date and time.');
                 return;
             }
 
@@ -60,7 +66,7 @@
 
                 if (timeDifference <= 0) {
                     clearInterval(countdownInterval);
-                    timerElement.textContent = "Time's up!";
+                    timerElement.textContent = "00 days 00 hours 00 minutes 00 seconds";
                     return;
                 }
 
@@ -69,8 +75,7 @@
                 const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-                timerElement.textContent = 
-                    `${days > 0 ? days + 'd ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                timerElement.textContent = `${String(days).padStart(2, '0')} days ${String(hours).padStart(2, '0')} hours ${String(minutes).padStart(2, '0')} minutes ${String(seconds).padStart(2, '0')} seconds`;
             }, 1000);
         });
     </script>
