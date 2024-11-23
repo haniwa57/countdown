@@ -13,69 +13,37 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f8ff;
-        }
-
-        h1 {
-            color: #333;
+            background-color: #000;
+            color: #fff;
         }
 
         .timer {
-            font-size: 3rem;
-            color: #ff4500;
-            margin: 20px 0;
-        }
-
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
+            font-size: 4rem;
+            font-weight: bold;
         }
 
         input[type="datetime-local"] {
             padding: 10px;
-            font-size: 1rem;
+            font-size: 1.5rem;
+            color: #000;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Countdown Timer</h1>
-    <div class="controls">
-        <label for="datetime">Select a date and time:</label>
-        <input type="datetime-local" id="datetime">
-        <button id="startButton">Start Countdown</button>
-    </div>
+    <input type="datetime-local" id="datetime">
     <div class="timer" id="timer">--:--:--</div>
 
     <script>
         const timerElement = document.getElementById('timer');
         const datetimeInput = document.getElementById('datetime');
-        const startButton = document.getElementById('startButton');
 
         let countdownInterval;
 
-        startButton.addEventListener('click', () => {
+        datetimeInput.addEventListener('change', () => {
             const targetTime = new Date(datetimeInput.value);
             const currentTime = new Date();
 
@@ -96,11 +64,13 @@
                     return;
                 }
 
-                const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-                timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                timerElement.textContent = 
+                    `${days > 0 ? days + 'd ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }, 1000);
         });
     </script>
